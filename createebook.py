@@ -5,6 +5,7 @@ import datetime
 import uuid
 import zipfile
 import shutil
+import codecs
 
 if len(sys.argv) < 2:
     print('missing directory with chapter xhtml pages')
@@ -83,7 +84,7 @@ with open('skeleton/OEBPS/chapter_template.xhtml') as s:
 i = 0
 for title, filename in settings['chapters'].items():
     i += 1
-    with open(os.path.join(dir, filename), 'r') as source, open(os.path.join('tmp/', filename), 'w') as target:
+    with codecs.open(os.path.join(dir, filename), 'r', encoding='utf8') as source, codecs.open(os.path.join('tmp/', filename), 'w', encoding='utf8') as target:
         target.write(chapter_template.format(i=i, chapter_title=title, chapter_content=source.read()))
 
 with zipfile.ZipFile('ebook.epub', 'w', zipfile.ZIP_DEFLATED) as archive:
